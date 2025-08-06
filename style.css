@@ -1,0 +1,63 @@
+/* Custom styles for the romantic theme */
+body {
+    font-family: 'Noto Serif', serif;
+    background-color: #f5eadd; /* A soft, warm background */
+    background-image: url('https://www.transparenttextures.com/patterns/lined-paper.png'); /* Subtle lined paper texture */
+}
+.font-title {
+    font-family: 'Dancing Script', cursive;
+}
+.card-container {
+    background-color: #fffaf0; /* Floral white, like parchment */
+    border: 1px solid #dcd0c0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative;
+    padding-top: 4rem; /* Space for the decorative element */
+}
+/* A simple decorative floral element using SVG */
+.card-container::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 30px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30"><path d="M50,0 C20,0 10,15 0,15 C10,15 20,30 50,30 C80,30 90,15 100,15 C90,15 80,0 50,0 Z" fill="none" stroke="%23c0a080" stroke-width="1.5"/></svg>');
+    background-repeat: no-repeat;
+    opacity: 0.7;
+}
+/* Style for scrollbar */
+#message-list::-webkit-scrollbar {
+    width: 6px;
+}
+#message-list::-webkit-scrollbar-track {
+    background: #fffaf0;
+    border-radius: 10px;
+}
+#message-list::-webkit-scrollbar-thumb {
+    background: #dcd0c0;
+    border-radius: 10px;
+}
+#message-list::-webkit-scrollbar-thumb:hover {
+    background: #c0a080;
+}
+.message-card {
+    border-left: 3px solid #e6c8c8; /* A soft rose border */
+    transition: background-color 0.3s;
+}
+.message-card:hover {
+    background-color: #fdf6e3;
+}
+/* Animation for modal */
+.modal-enter-active {
+    transition: opacity 300ms, transform 300ms;
+}
+.modal-leave-active {
+    transition: opacity 300ms, transform 300ms;
+}
+.modal-enter, .modal-leave-to {
+    opacity: 0;
+    transform: scale(0.95);
+}

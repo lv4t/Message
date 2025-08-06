@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message</title>
+    
+    <!-- Liên kết đến tệp CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body class="antialiased text-gray-700">
+
+    <div id="app" class="container mx-auto p-4 md:p-8 max-w-2xl min-h-screen flex flex-col justify-center">
+        <!-- Main Card Container -->
+        <div class="card-container w-full p-6 md:p-10">
+            <!-- Header -->
+            <header class="text-center mb-8">
+                <h1 class="font-title text-5xl md:text-6xl text-amber-800">Sổ Lưu Bút</h1>
+                <p class="text-gray-500 mt-2 italic">Nơi lưu giữ những lời yêu thương</p>
+                <div id="auth-info" class="mt-4 text-xs text-gray-400">
+                    <p>Đang kết nối...</p>
+                </div>
+            </header>
+
+            <!-- Message List -->
+            <main class="mb-8 max-h-96 overflow-y-auto pr-3" id="message-list-container">
+                <div id="message-list" class="space-y-6">
+                    <!-- Messages will be dynamically inserted here -->
+                    <div id="loading-indicator" class="text-center py-8">
+                        <p class="text-gray-500">Đang tải lời nhắn...</p>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Form to add new message -->
+            <form id="add-message-form" class="border-t border-dashed border-gray-300 pt-6">
+                <textarea id="message-input" class="w-full p-3 bg-transparent border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-600 focus:border-amber-600 transition duration-150" rows="3" placeholder="Viết lời nhắn của bạn..."></textarea>
+                <button type="submit" class="mt-4 w-full bg-rose-300 text-rose-800 font-bold py-3 px-4 rounded-md hover:bg-rose-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-400 transition duration-200 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.428A1 1 0 009.894 15V4.106A1 1 0 0010.894 2.553z" />
+                    </svg>
+                    Gửi Lời Nhắn
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg shadow-2xl p-6 w-full max-w-md modal-enter">
+            <h2 class="font-title text-3xl text-amber-800 mb-4">Chỉnh sửa lời nhắn</h2>
+            <textarea id="edit-message-input" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-600 focus:border-amber-600 transition duration-150" rows="4"></textarea>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="cancel-edit-btn" class="bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded-md hover:bg-gray-300 transition duration-200">Hủy</button>
+                <button id="save-edit-btn" class="bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-green-700 transition duration-200">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</body>
+</html>

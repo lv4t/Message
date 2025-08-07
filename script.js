@@ -3,7 +3,15 @@ import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged }
 import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- CONFIGURATION ---
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+const firebaseConfig = {
+  apiKey: "AIzaSyCshXn7IODTSOYN-pVfpb0oQB3paV-g2fY",
+  authDomain: "note-403a3.firebaseapp.com",
+  projectId: "note-403a3",
+  storageBucket: "note-403a3.firebasestorage.app",
+  messagingSenderId: "275737348339",
+  appId: "1:275737348339:web:8f06bde76454b18deccf86",
+  measurementId: "G-MJHR5BHX03"
+};
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-message-board';
 const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 

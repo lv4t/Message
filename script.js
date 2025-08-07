@@ -1,8 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- CONFIGURATION ---
+// DÁN CẤU HÌNH FIREBASE CỦA BẠN VÀO ĐÂY
 const firebaseConfig = {
   apiKey: "AIzaSyCshXn7IODTSOYN-pVfpb0oQB3paV-g2fY",
   authDomain: "note-403a3.firebaseapp.com",
@@ -12,8 +13,8 @@ const firebaseConfig = {
   appId: "1:275737348339:web:8f06bde76454b18deccf86",
   measurementId: "G-MJHR5BHX03"
 };
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-message-board';
-const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+const appId = 'so-luu-but-cong-khai';
 
 // --- INITIALIZATION ---
 let app, auth, db, userId;
@@ -31,6 +32,9 @@ const editMessageInput = document.getElementById('edit-message-input');
 const saveEditBtn = document.getElementById('save-edit-btn');
 const cancelEditBtn = document.getElementById('cancel-edit-btn');
 
+// *** THAY ĐỔI 1: Đường dẫn đến bộ sưu tập công khai ***
+const messagesCollectionPath = `artifacts/${appId}/public/data/messages`;
+
 async function initializeFirebase() {
     try {
         app = initializeApp(firebaseConfig);
@@ -40,10 +44,13 @@ async function initializeFirebase() {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 userId = user.uid;
-                authInfo.innerHTML = `<p>ID: <span class="font-mono bg-gray-200 px-1 rounded text-gray-500">${userId.substring(0,10)}...</span></p>`;
+                authInfo.innerHTML = `<p>ID của bạn: <span class="font-mono bg-gray-200 px-1 rounded text-gray-500">${userId.substring(0,10)}...</span> (Dùng để nhận biết lời nhắn của bạn)</p>`;
                 listenForMessages();
             } else {
-                signIn();
+                signInAnonymously(auth).catch(error => {
+                    console.error("Authentication failed:", error);
+                    authInfo.textContent = 'Lỗi xác thực.';
+                });
             }
         });
     } catch (error) {
@@ -53,28 +60,14 @@ async function initializeFirebase() {
     }
 }
 
-async function signIn() {
-    try {
-        if (initialAuthToken) {
-            await signInWithCustomToken(auth, initialAuthToken);
-        } else {
-            await signInAnonymously(auth);
-        }
-    } catch (error) {
-        console.error("Authentication failed:", error);
-        authInfo.textContent = 'Lỗi xác thực.';
-    }
-}
-
 function listenForMessages() {
-    if (!userId) return;
-    const messagesCollection = collection(db, `artifacts/${appId}/users/${userId}/messages`);
+    const messagesCollection = collection(db, messagesCollectionPath);
     
     onSnapshot(messagesCollection, (snapshot) => {
         loadingIndicator.style.display = 'none';
         
         if (snapshot.empty) {
-            messageList.innerHTML = '<p class="text-center text-gray-500 py-8 italic">Chưa có lời nhắn nào...</p>';
+            messageList.innerHTML = '<p class="text-center text-gray-500 py-8 italic">Chưa có lời nhắn nào. Hãy là người đầu tiên!</p>';
             return;
         }
 
@@ -84,7 +77,7 @@ function listenForMessages() {
         messageList.innerHTML = '';
         
         messages.forEach(msg => {
-            const messageElement = createMessageElement(msg.id, msg.text, msg.createdAt);
+            const messageElement = createMessageElement(msg);
             messageList.appendChild(messageElement);
         });
     }, (error) => {
@@ -93,18 +86,18 @@ function listenForMessages() {
     });
 }
 
-function createMessageElement(id, text, timestamp) {
+// *** THAY ĐỔI 2: Xử lý hiển thị dựa trên tác giả ***
+function createMessageElement(msg) {
+    const { id, text, createdAt, authorId } = msg;
     const card = document.createElement('div');
     card.className = 'message-card p-4 rounded-r-lg flex justify-between items-start';
     card.setAttribute('data-id', id);
 
-    const date = timestamp ? new Date(timestamp.seconds * 1000).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Vừa xong';
+    const date = createdAt ? new Date(createdAt.seconds * 1000).toLocaleString('vi-VN') : 'Vừa xong';
+    const isAuthor = userId === authorId; // Kiểm tra xem người dùng hiện tại có phải là tác giả không
 
-    card.innerHTML = `
-        <div>
-            <p class="text-gray-800 whitespace-pre-wrap">${text}</p>
-            <small class="text-gray-400 text-xs mt-2 block italic">${date}</small>
-        </div>
+    // Chỉ hiển thị nút sửa/xóa nếu là tác giả
+    const actionButtons = isAuthor ? `
         <div class="flex flex-col space-y-2 ml-4 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
             <button class="edit-btn p-1 rounded-full hover:bg-amber-100 transition duration-150" title="Sửa">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.732 3.732z" /></svg>
@@ -113,27 +106,42 @@ function createMessageElement(id, text, timestamp) {
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
             </button>
         </div>
+    ` : '';
+
+    card.innerHTML = `
+        <div>
+            <p class="text-gray-800 whitespace-pre-wrap">${text}</p>
+            <small class="text-gray-400 text-xs mt-2 block italic">
+                Gửi lúc: ${date} <br>
+                Bởi: <span class="font-mono">${authorId.substring(0, 10)}...</span>
+            </small>
+        </div>
+        ${actionButtons}
     `;
     
-    // Add a class to the card so we can show buttons on hover
     card.classList.add('group');
 
-    card.querySelector('.edit-btn').addEventListener('click', () => handleEdit(id, text));
-    card.querySelector('.delete-btn').addEventListener('click', () => handleDelete(id));
+    // Gắn sự kiện nếu nút tồn tại
+    if (isAuthor) {
+        card.querySelector('.edit-btn').addEventListener('click', () => handleEdit(id, text));
+        card.querySelector('.delete-btn').addEventListener('click', () => handleDelete(id));
+    }
 
     return card;
 }
 
+// *** THAY ĐỔI 3: Thêm authorId khi tạo lời nhắn ***
 async function handleAddMessage(e) {
     e.preventDefault();
     const messageText = messageInput.value.trim();
 
     if (messageText && userId) {
         try {
-            const messagesCollection = collection(db, `artifacts/${appId}/users/${userId}/messages`);
+            const messagesCollection = collection(db, messagesCollectionPath);
             await addDoc(messagesCollection, {
                 text: messageText,
-                createdAt: serverTimestamp()
+                createdAt: serverTimestamp(),
+                authorId: userId // Lưu lại ID của người gửi
             });
             messageInput.value = '';
         } catch (error) {
@@ -141,13 +149,12 @@ async function handleAddMessage(e) {
         }
     }
 }
-
+        
 async function handleDelete(id) {
     if (!userId) return;
-    // Using custom modal for confirmation later if needed
     if (confirm("Bạn có chắc chắn muốn xóa lời nhắn này?")) {
         try {
-            const messageDoc = doc(db, `artifacts/${appId}/users/${userId}/messages`, id);
+            const messageDoc = doc(db, messagesCollectionPath, id);
             await deleteDoc(messageDoc);
         } catch (error) {
             console.error("Error deleting message: ", error);
@@ -175,7 +182,7 @@ async function saveEditedMessage() {
     const newText = editMessageInput.value.trim();
     if (newText && currentEditId && userId) {
         try {
-            const messageDoc = doc(db, `artifacts/${appId}/users/${userId}/messages`, currentEditId);
+            const messageDoc = doc(db, messagesCollectionPath, currentEditId);
             await updateDoc(messageDoc, { text: newText });
             closeEditModal();
         } catch (error) {

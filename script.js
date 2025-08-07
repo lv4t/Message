@@ -3,7 +3,7 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gsta
 import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- CONFIGURATION ---
-// DÁN CẤU HÌNH FIREBASE CỦA BẠN VÀO ĐÂY
+// HÃY CHẮC CHẮN BẠN ĐÃ DÁN CẤU HÌNH FIREBASE CỦA MÌNH VÀO ĐÂY
 const firebaseConfig = {
   apiKey: "AIzaSyCshXn7IODTSOYN-pVfpb0oQB3paV-g2fY",
   authDomain: "note-403a3.firebaseapp.com",
@@ -32,7 +32,6 @@ const editMessageInput = document.getElementById('edit-message-input');
 const saveEditBtn = document.getElementById('save-edit-btn');
 const cancelEditBtn = document.getElementById('cancel-edit-btn');
 
-// *** THAY ĐỔI 1: Đường dẫn đến bộ sưu tập công khai ***
 const messagesCollectionPath = `artifacts/${appId}/public/data/messages`;
 
 async function initializeFirebase() {
@@ -44,7 +43,8 @@ async function initializeFirebase() {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 userId = user.uid;
-                authInfo.innerHTML = `<p>ID của bạn: <span class="font-mono bg-gray-200 px-1 rounded text-gray-500">${userId.substring(0,10)}...</span> (Dùng để nhận biết lời nhắn của bạn)</p>`;
+                // *** THAY ĐỔI 1: Ẩn ID người dùng ở header ***
+                authInfo.innerHTML = `<p class="italic">Bạn đã đăng nhập ẩn danh.</p>`;
                 listenForMessages();
             } else {
                 signInAnonymously(auth).catch(error => {
@@ -86,7 +86,6 @@ function listenForMessages() {
     });
 }
 
-// *** THAY ĐỔI 2: Xử lý hiển thị dựa trên tác giả ***
 function createMessageElement(msg) {
     const { id, text, createdAt, authorId } = msg;
     const card = document.createElement('div');
@@ -94,9 +93,8 @@ function createMessageElement(msg) {
     card.setAttribute('data-id', id);
 
     const date = createdAt ? new Date(createdAt.seconds * 1000).toLocaleString('vi-VN') : 'Vừa xong';
-    const isAuthor = userId === authorId; // Kiểm tra xem người dùng hiện tại có phải là tác giả không
+    const isAuthor = userId === authorId;
 
-    // Chỉ hiển thị nút sửa/xóa nếu là tác giả
     const actionButtons = isAuthor ? `
         <div class="flex flex-col space-y-2 ml-4 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
             <button class="edit-btn p-1 rounded-full hover:bg-amber-100 transition duration-150" title="Sửa">
@@ -108,12 +106,12 @@ function createMessageElement(msg) {
         </div>
     ` : '';
 
+    // *** THAY ĐỔI 2: Ẩn ID người gửi trong mỗi lời nhắn ***
     card.innerHTML = `
         <div>
             <p class="text-gray-800 whitespace-pre-wrap">${text}</p>
             <small class="text-gray-400 text-xs mt-2 block italic">
-                Gửi lúc: ${date} <br>
-                Bởi: <span class="font-mono">${authorId.substring(0, 10)}...</span>
+                Gửi lúc: ${date}
             </small>
         </div>
         ${actionButtons}
@@ -121,7 +119,6 @@ function createMessageElement(msg) {
     
     card.classList.add('group');
 
-    // Gắn sự kiện nếu nút tồn tại
     if (isAuthor) {
         card.querySelector('.edit-btn').addEventListener('click', () => handleEdit(id, text));
         card.querySelector('.delete-btn').addEventListener('click', () => handleDelete(id));
@@ -130,7 +127,6 @@ function createMessageElement(msg) {
     return card;
 }
 
-// *** THAY ĐỔI 3: Thêm authorId khi tạo lời nhắn ***
 async function handleAddMessage(e) {
     e.preventDefault();
     const messageText = messageInput.value.trim();
@@ -141,7 +137,7 @@ async function handleAddMessage(e) {
             await addDoc(messagesCollection, {
                 text: messageText,
                 createdAt: serverTimestamp(),
-                authorId: userId // Lưu lại ID của người gửi
+                authorId: userId
             });
             messageInput.value = '';
         } catch (error) {

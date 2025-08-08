@@ -1,28 +1,32 @@
-/* style.css - Sea Theme */
+/* style.css - Sea Sunset Theme */
 
 body {
     font-family: 'Noto Serif', serif;
-    background-color: #e0f7fa; /* Light cyan background */
-    background-image: url('https://www.transparenttextures.com/patterns/wavecut.png'); /* Subtle wave texture */
-    color: #0c4a6e; /* Dark slate blue text */
+    /* New Sunset Gradient Background */
+    background: linear-gradient(to bottom, #fbc2eb 0%, #a6c1ee 100%);
+    color: #4a4e69; /* Dark, muted purple for text */
+    min-height: 100vh; /* Ensure gradient fills the screen */
 }
 
 .font-title {
     font-family: 'Pacifico', cursive;
+    /* A warmer title color */
+    color: #c94b4b; 
 }
 
 .card-container {
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white card */
+    /* A warmer, creamy transparent background */
+    background-color: rgba(255, 253, 249, 0.85); 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid #a5f3fc; /* Light cyan border */
+    border: 1px solid rgba(255, 192, 159, 0.8); /* Soft orange border */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     position: relative;
     padding-top: 4rem;
 }
 
-/* A simple wave decorative element */
+/* Sunset-themed wave decorative element */
 .card-container::before {
     content: '';
     position: absolute;
@@ -31,7 +35,7 @@ body {
     transform: translateX(-50%);
     width: 100px;
     height: 30px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 20"><path fill="%23a5f3fc" fill-opacity="0.5" d="M0,20 Q30,0 60,20 T120,20 V20 H0 Z"></path><path fill="%234dd0e1" fill-opacity="0.5" d="M0,20 Q30,10 60,20 T120,20 V20 H0 Z"></path></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 20"><path fill="%23ffc3a0" fill-opacity="0.6" d="M0,20 Q30,0 60,20 T120,20 V20 H0 Z"></path><path fill="%23ffafbd" fill-opacity="0.6" d="M0,20 Q30,10 60,20 T120,20 V20 H0 Z"></path></svg>');
     background-repeat: no-repeat;
 }
 
@@ -42,47 +46,65 @@ body {
     background: transparent;
 }
 #message-list::-webkit-scrollbar-thumb {
-    background: #4dd0e1; /* Medium cyan scrollbar */
+    background: #ffafbd; /* Sunset pink scrollbar */
     border-radius: 10px;
 }
 #message-list::-webkit-scrollbar-thumb:hover {
-    background: #00bcd4;
+    background: #ff9a8b;
 }
 
 .message-card {
-    border-left: 4px solid #22d3ee; /* Bright cyan border */
-    background-color: rgba(240, 249, 255, 0.7); /* Very light blue, semi-transparent */
+    border-left: 4px solid #ff9a8b; /* Sunset orange border */
+    background-color: rgba(255, 245, 238, 0.8); /* Very light orange, semi-transparent */
     transition: background-color 0.3s, transform 0.2s;
 }
 
 .message-card:hover {
-    background-color: rgba(224, 242, 254, 1);
+    background-color: rgba(255, 235, 224, 1);
     transform: translateX(4px);
 }
 
 /* Modal styles */
 #edit-modal .font-title {
     font-family: 'Pacifico', cursive;
+    color: #c94b4b;
 }
 
 /* General UI elements */
 textarea#message-input, textarea#edit-message-input {
-    background-color: rgba(255, 255, 255, 0.5) !important;
-    border-color: #99e2f0 !important;
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    border-color: #ffc3a0 !important;
+    color: #5a5255;
 }
 
 textarea#message-input:focus, textarea#edit-message-input:focus {
-    --tw-ring-color: #00bcd4 !important;
-    border-color: #00bcd4 !important;
+    --tw-ring-color: #ff9a8b !important;
+    border-color: #ff9a8b !important;
 }
 
 /* Button style */
 #add-message-form button {
-    background-color: #00bcd4; /* Main cyan color */
+    /* Gradient button matching the sunset theme */
+    background-image: linear-gradient(to right, #ff9a8b 0%, #ff6a88 51%, #ff9a8b 100%);
+    background-size: 200% auto;
     color: white;
     font-weight: bold;
+    transition: 0.5s;
 }
 
 #add-message-form button:hover {
-    background-color: #00acc1;
+    background-position: right center; /* change the direction of the change here */
+}
+
+/* Update text colors to be legible on the new background */
+#auth-info {
+    color: #58517a !important;
+}
+
+header p.italic {
+    color: #a4508b !important;
+}
+
+#loading-indicator p {
+    color: #5a5255;
 }

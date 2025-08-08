@@ -44,7 +44,7 @@ async function initializeFirebase() {
             if (user) {
                 userId = user.uid;
                 // *** THAY ĐỔI 1: Ẩn ID người dùng ở header ***
-                authInfo.innerHTML = `<p class="italic">Không ai biết bạn và bạn không biết ai.</p>`;
+                authInfo.innerHTML = `<p class="italic">If you know you know.</p>`;
                 listenForMessages();
             } else {
                 signInAnonymously(auth).catch(error => {

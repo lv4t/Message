@@ -1,25 +1,32 @@
-/* style.css - Sea Sunset Theme */
+/* style.css - Pixel Art Sea Sunset Theme */
 
 body {
     font-family: 'Noto Serif', serif;
-    /* New Sunset Gradient Background */
-    background: linear-gradient(to bottom, #fbc2eb 0%, #a6c1ee 100%);
-    color: #4a4e69; /* Dark, muted purple for text */
-    min-height: 100vh; /* Ensure gradient fills the screen */
+    
+    /* --- THAY ĐỔI CHÍNH NẰM Ở ĐÂY --- */
+    /* 1. Đặt ảnh nền bằng URL bạn cung cấp */
+    background-image: url('https://i.imgur.com/8Vw3b2L.jpeg'); /* <-- URL của ảnh hoàng hôn pixel */
+
+    /* 2. Căn chỉnh ảnh nền */
+    background-size: cover;          /* Đảm bảo ảnh lấp đầy màn hình */
+    background-position: center;     /* Căn ảnh ra giữa */
+    background-attachment: fixed;    /* Giữ ảnh nền cố định khi cuộn trang */
+    image-rendering: pixelated;      /* Giữ cho ảnh không bị mờ, giữ nguyên chất pixel art */
+
+    color: #4a4e69;
+    min-height: 100vh;
 }
 
 .font-title {
     font-family: 'Pacifico', cursive;
-    /* A warmer title color */
     color: #c94b4b; 
 }
 
 .card-container {
-    /* A warmer, creamy transparent background */
     background-color: rgba(255, 253, 249, 0.85); 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 192, 159, 0.8); /* Soft orange border */
+    backdrop-filter: blur(5px); /* Giảm độ mờ một chút để nền rõ hơn */
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 192, 159, 0.8);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     position: relative;
@@ -46,7 +53,7 @@ body {
     background: transparent;
 }
 #message-list::-webkit-scrollbar-thumb {
-    background: #ffafbd; /* Sunset pink scrollbar */
+    background: #ffafbd;
     border-radius: 10px;
 }
 #message-list::-webkit-scrollbar-thumb:hover {
@@ -54,8 +61,8 @@ body {
 }
 
 .message-card {
-    border-left: 4px solid #ff9a8b; /* Sunset orange border */
-    background-color: rgba(255, 245, 238, 0.8); /* Very light orange, semi-transparent */
+    border-left: 4px solid #ff9a8b;
+    background-color: rgba(255, 245, 238, 0.8);
     transition: background-color 0.3s, transform 0.2s;
 }
 
@@ -64,13 +71,11 @@ body {
     transform: translateX(4px);
 }
 
-/* Modal styles */
 #edit-modal .font-title {
     font-family: 'Pacifico', cursive;
     color: #c94b4b;
 }
 
-/* General UI elements */
 textarea#message-input, textarea#edit-message-input {
     background-color: rgba(255, 255, 255, 0.6) !important;
     border-color: #ffc3a0 !important;
@@ -82,9 +87,7 @@ textarea#message-input:focus, textarea#edit-message-input:focus {
     border-color: #ff9a8b !important;
 }
 
-/* Button style */
 #add-message-form button {
-    /* Gradient button matching the sunset theme */
     background-image: linear-gradient(to right, #ff9a8b 0%, #ff6a88 51%, #ff9a8b 100%);
     background-size: 200% auto;
     color: white;
@@ -93,10 +96,9 @@ textarea#message-input:focus, textarea#edit-message-input:focus {
 }
 
 #add-message-form button:hover {
-    background-position: right center; /* change the direction of the change here */
+    background-position: right center;
 }
 
-/* Update text colors to be legible on the new background */
 #auth-info {
     color: #58517a !important;
 }

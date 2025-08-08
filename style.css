@@ -4,8 +4,8 @@ body {
     font-family: 'Noto Serif', serif;
     
     /* --- THAY ĐỔI CHÍNH NẰM Ở ĐÂY --- */
-    /* 1. Đặt ảnh nền bằng URL bạn cung cấp */
-    background-image: url('https://i.imgur.com/8Vw3b2L.jpeg'); /* <-- URL của ảnh hoàng hôn pixel */
+    /* 1. Đặt ảnh nền bằng URL raw từ GitHub của bạn */
+    background-image: url('https://raw.githubusercontent.com/lv4t/Message/main/download.png'); /* <-- URL mới từ GitHub */
 
     /* 2. Căn chỉnh ảnh nền */
     background-size: cover;          /* Đảm bảo ảnh lấp đầy màn hình */

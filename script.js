@@ -2,8 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-// --- CONFIGURATION ---
-// HÃY CHẮC CHẮN BẠN ĐÃ DÁN CẤU HÌNH FIREBASE CỦA MÌNH VÀO ĐÂY
 const firebaseConfig = {
   apiKey: "AIzaSyCshXn7IODTSOYN-pVfpb0oQB3paV-g2fY",
   authDomain: "note-403a3.firebaseapp.com",
@@ -16,7 +14,6 @@ const firebaseConfig = {
 
 const appId = 'so-luu-but-cong-khai';
 
-// --- INITIALIZATION ---
 let app, auth, db, userId;
 let currentEditId = null;
 

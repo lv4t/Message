@@ -1,21 +1,28 @@
-/* Custom styles for the romantic theme */
+/* style.css - Sea Theme */
+
 body {
     font-family: 'Noto Serif', serif;
-    background-color: #f5eadd; /* A soft, warm background */
-    background-image: url('https://www.transparenttextures.com/patterns/lined-paper.png'); /* Subtle lined paper texture */
+    background-color: #e0f7fa; /* Light cyan background */
+    background-image: url('https://www.transparenttextures.com/patterns/wavecut.png'); /* Subtle wave texture */
+    color: #0c4a6e; /* Dark slate blue text */
 }
+
 .font-title {
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Pacifico', cursive;
 }
+
 .card-container {
-    background-color: #fffaf0; /* Floral white, like parchment */
-    border: 1px solid #dcd0c0;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white card */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid #a5f3fc; /* Light cyan border */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 12px;
     position: relative;
-    padding-top: 4rem; /* Space for the decorative element */
+    padding-top: 4rem;
 }
-/* A simple decorative floral element using SVG */
+
+/* A simple wave decorative element */
 .card-container::before {
     content: '';
     position: absolute;
@@ -24,40 +31,58 @@ body {
     transform: translateX(-50%);
     width: 100px;
     height: 30px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30"><path d="M50,0 C20,0 10,15 0,15 C10,15 20,30 50,30 C80,30 90,15 100,15 C90,15 80,0 50,0 Z" fill="none" stroke="%23c0a080" stroke-width="1.5"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 20"><path fill="%23a5f3fc" fill-opacity="0.5" d="M0,20 Q30,0 60,20 T120,20 V20 H0 Z"></path><path fill="%234dd0e1" fill-opacity="0.5" d="M0,20 Q30,10 60,20 T120,20 V20 H0 Z"></path></svg>');
     background-repeat: no-repeat;
-    opacity: 0.7;
 }
-/* Style for scrollbar */
+
 #message-list::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
 }
 #message-list::-webkit-scrollbar-track {
-    background: #fffaf0;
-    border-radius: 10px;
+    background: transparent;
 }
 #message-list::-webkit-scrollbar-thumb {
-    background: #dcd0c0;
+    background: #4dd0e1; /* Medium cyan scrollbar */
     border-radius: 10px;
 }
 #message-list::-webkit-scrollbar-thumb:hover {
-    background: #c0a080;
+    background: #00bcd4;
 }
+
 .message-card {
-    border-left: 3px solid #e6c8c8; /* A soft rose border */
-    transition: background-color 0.3s;
+    border-left: 4px solid #22d3ee; /* Bright cyan border */
+    background-color: rgba(240, 249, 255, 0.7); /* Very light blue, semi-transparent */
+    transition: background-color 0.3s, transform 0.2s;
 }
+
 .message-card:hover {
-    background-color: #fdf6e3;
+    background-color: rgba(224, 242, 254, 1);
+    transform: translateX(4px);
 }
-/* Animation for modal */
-.modal-enter-active {
-    transition: opacity 300ms, transform 300ms;
+
+/* Modal styles */
+#edit-modal .font-title {
+    font-family: 'Pacifico', cursive;
 }
-.modal-leave-active {
-    transition: opacity 300ms, transform 300ms;
+
+/* General UI elements */
+textarea#message-input, textarea#edit-message-input {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    border-color: #99e2f0 !important;
 }
-.modal-enter, .modal-leave-to {
-    opacity: 0;
-    transform: scale(0.95);
+
+textarea#message-input:focus, textarea#edit-message-input:focus {
+    --tw-ring-color: #00bcd4 !important;
+    border-color: #00bcd4 !important;
+}
+
+/* Button style */
+#add-message-form button {
+    background-color: #00bcd4; /* Main cyan color */
+    color: white;
+    font-weight: bold;
+}
+
+#add-message-form button:hover {
+    background-color: #00acc1;
 }
